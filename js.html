@@ -18,9 +18,11 @@
     
   </div>
 
+  <ul></ul>
+
   <script>
       let url = "https://pokeapi.co/api/v2/pokemon/"
-      
+      let pokemon = [];
 
     async function getActualPokemon () {
       let input = document.getElementById("userInput").value;
@@ -29,16 +31,31 @@
           let data = await response.json();
           console.log(data.name);
           console.log(data)
-          return data;
+          getMoves(data);
         }
-        
-        //console.log(response.status)
-        
     }
-
       async function getPokemon() {
         console.log(await getActualPokemon())
     }
+
+    async function getMoves(data){
+      let moveList = data.moves;
+      var ulElem = document.querySelector("ul");
+      ulElem.innerHTML = '';
+      for(var i =0; i < data.moves.length; i++) {
+        var selectList = document.createElement("button");
+        selectList.innerHTML = data.moves[i].move.name;
+        selectList.id = "move" + i;
+        
+        selectList.addEventListener('click', function(){
+          selectList = document.getElementById(selectList.id)
+        console.log(this.innerHTML)
+      });
+        await ulElem.appendChild(selectList);
+      }
+      console.log(data.moves)
+    }
+  
 
   </script>
 </body>
