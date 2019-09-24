@@ -12,51 +12,141 @@
   <h1>Pokemon Team builder</h1>
   <div class="form">
     
-      <p>Enter a Pokemon</p>
+      <p>Enter the name of a Pokemon</p>
       <input type="text" label="Enter a Pokemon" id="userInput">
       <button type="button" onClick="getPokemon()"> Get Pokemon</button>
     
   </div>
 
   <ul></ul>
+  <div id="moves"></div>
+  <div id="add"></div>
+  <div id="team"></div>
+  
 
   <script>
-      let url = "https://pokeapi.co/api/v2/pokemon/"
-      let pokemon = [];
+    var url = "https://pokeapi.co/api/v2/pokemon/";
+    var pokemon = [];
+    var pokemonMoves = [];
+    pokemonName = ''
 
     async function getActualPokemon () {
-      let input = document.getElementById("userInput").value;
-        let response = await fetch(url+input.toLowerCase()+'/');
-        if (response.status === 200){
-          let data = await response.json();
-          console.log(data.name);
-          console.log(data)
-          getMoves(data);
-        }
+      var input = document.getElementById("userInput").value;
+      var response = await fetch(url+input.toLowerCase()+'/');
+      if (response.status === 200){
+        var data = await response.json();
+        pokemonName = data.name
+        console.log(data.name);
+        console.log(data)
+        console.log(data.sprites.front_default)
+        getMoves(data);
+      }else{
+        alert("Sorry Pokemon not found. Please search for another pokemon")
+      }
     }
       async function getPokemon() {
         console.log(await getActualPokemon())
     }
 
     async function getMoves(data){
-      let moveList = data.moves;
+      var moveList = data.moves;
+      
       var ulElem = document.querySelector("ul");
       ulElem.innerHTML = '';
+      console.log(pokemon.length);
+      var heading = document.createElement("h1");
+      var headSprite = document.createElement("img");
+      headSprite.setAttribute("src",data.sprites.front_default);
+      heading.innerHTML = `${data.name} move list`;
+      ulElem.append(headSprite);
+      ulElem.append(heading);
+
       for(var i =0; i < data.moves.length; i++) {
+        
         var selectList = document.createElement("button");
         selectList.innerHTML = data.moves[i].move.name;
         selectList.id = "move" + i;
-        
+
         selectList.addEventListener('click', function(){
-          selectList = document.getElementById(selectList.id)
-        console.log(this.innerHTML)
+          selectList = document.getElementById(selectList.id);
+        //console.log(this.innerHTML)
+        //console.log(selectList)
+          chosenMoves = document.getElementById("moves");
+        //var div = document.getElementById("moveset");
+          var length = chosenMoves.getElementsByTagName("BUTTON").length;
+        
+
+          if(length < 4 && this.textContent !== chosenMoves.textContent){
+            moves =  document.createElement('button');
+            moves.innerHTML = this.innerHTML;
+            chosenMoves.appendChild(moves);
+            pokemonMoves.push(this.innerHTML);
+            console.log(pokemonMoves);
+
+            moves.addEventListener('click', function(){
+              moves.remove(this.innerHTML);
+              console.log(this.innerHTML);
+            
+            })
+        }
+
+        if(this.textContent == chosenMoves.textContent){
+            console.log("same");
+
+        }
+            /*else {
+            alert("Can only select 4 moves please remove 1 first")
+        }*/
+
+       
       });
         await ulElem.appendChild(selectList);
       }
-      console.log(data.moves)
-    }
-  
+      
+        var generatePokemon = document.getElementById("add");
+        var createPokemon = document.createElement("button");
+        createPokemon.innerHTML = 'create Pokemon';
+        var cancel = document.createElement("button");
+        cancel.innerHTML = "cancel";
+        generatePokemon.appendChild(createPokemon);
+        generatePokemon.appendChild(cancel);
+        console.log(data.moves);
+      
+     
 
+      createPokemon.addEventListener('click', function(){
+        var addPokemon = {name: pokemonName, moves: pokemonMoves};
+        pokemon.push(addPokemon);
+        alert("Pokemon Created");
+        ulElem.innerHTML = '';
+        chosenMoves.innerHTML = '';
+        generatePokemon.innerHTML ='';
+        pokemonSprite = document.createElement('img');
+        pokemonSprite.setAttribute("src",data.sprites.front_default);
+        pokemonMoveList = document.createElement('p');
+        pokemonMoveList.innerHTML = "Move List: " + pokemonMoves;
+        console.log(pokemonMoveList.innerHTML);
+        var team = document.getElementById("team");
+        team.appendChild(pokemonSprite);
+        team.appendChild(pokemonMoveList);
+        pokemonMoves = [];
+        console.log(pokemon);
+        remove = document.createElement("button");
+        remove.innerHTML = "Delete Team";
+        team.appendChild(remove);
+        remove.addEventListener('click', function(){
+          team.innerHTML ='';
+          pokemon = [];
+        });
+    });
+
+    cancel.addEventListener('click', function(){
+      ulElem.innerHTML ='';
+      generatePokemon.innerHTML = '';
+      chosenMoves.innerHTML = '';
+      pokemonMoves = [];
+    })
+    }
   </script>
 </body>
 </html>

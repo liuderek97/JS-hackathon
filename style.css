@@ -6,3 +6,26 @@ h1{
   font-family: 'Roboto', sans-serif;
   margin-left: 10%; 
 }
+
+h2{
+  font-family: 'Roboto', sans-serif;
+}
+
+li{
+  font-family: 'Roboto', sans-serif;
+}
+
+.add{
+  margin: auto;
+}
+ul img{
+  margin-left: 40%;
+  width: 20%;
+}
+#team{
+  margin: auto;
+}
+
+#team img{
+  width: 20%;
+}
