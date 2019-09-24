@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel='stylesheet' href="style.css">
+  <title>Pokemon Team Builder</title>
+</head>
+<body>
+  <h1>Pokemon Team builder</h1>
+  <div class="form">
+    
+      <p>Enter a Pokemon</p>
+      <input type="text" label="Enter a Pokemon" id="userInput">
+      <button type="button" onClick="getPokemon()"> Get Pokemon</button>
+    
+  </div>
+
+  <ul></ul>
+
+  <script>
+      let url = "https://pokeapi.co/api/v2/pokemon/"
+      let pokemon = [];
+
+    async function getActualPokemon () {
+      let input = document.getElementById("userInput").value;
+        let response = await fetch(url+input.toLowerCase()+'/');
+        if (response.status === 200){
+          let data = await response.json();
+          console.log(data.name);
+          console.log(data)
+          getMoves(data);
+        }
+    }
+      async function getPokemon() {
+        console.log(await getActualPokemon())
+    }
+
+    async function getMoves(data){
+      let moveList = data.moves;
+      var ulElem = document.querySelector("ul");
+      ulElem.innerHTML = '';
+      for(var i =0; i < data.moves.length; i++) {
+        var selectList = document.createElement("button");
+        selectList.innerHTML = data.moves[i].move.name;
+        selectList.id = "move" + i;
+        
+        selectList.addEventListener('click', function(){
+          selectList = document.getElementById(selectList.id)
+        console.log(this.innerHTML)
+      });
+        await ulElem.appendChild(selectList);
+      }
+      console.log(data.moves)
+    }
+  
+
+  </script>
+</body>
+</html>
