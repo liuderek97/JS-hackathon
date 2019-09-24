@@ -60,7 +60,7 @@
       heading.innerHTML = `${data.name} move list`;
       ulElem.append(headSprite);
       ulElem.append(heading);
-
+      chosenMoves = document.getElementById("moves");
       for(var i =0; i < data.moves.length; i++) {
         
         var selectList = document.createElement("button");
@@ -113,8 +113,7 @@
         console.log(data.moves);
       
      
-
-      createPokemon.addEventListener('click', function(){
+        createPokemon.addEventListener('click', function(){
         var addPokemon = {name: pokemonName, moves: pokemonMoves};
         pokemon.push(addPokemon);
         alert("Pokemon Created");
