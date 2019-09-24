@@ -10,10 +10,36 @@
 </head>
 <body>
   <h1>Pokemon Team builder</h1>
-  <form>
-    <p>Enter a Pokemon</p>
-    <input type="text" label="Enter a Pokemon">
-    <input type="submit">
-  </form>
+  <div class="form">
+    
+      <p>Enter a Pokemon</p>
+      <input type="text" label="Enter a Pokemon" id="userInput">
+      <button type="button" onClick="getPokemon()"> Get Pokemon</button>
+    
+  </div>
+
+  <script>
+      let url = "https://pokeapi.co/api/v2/pokemon/"
+      
+
+    async function getActualPokemon () {
+      let input = document.getElementById("userInput").value;
+        let response = await fetch(url+input.toLowerCase()+'/');
+        if (response.status === 200){
+          let data = await response.json();
+          console.log(data.name);
+          console.log(data)
+          return data;
+        }
+        
+        //console.log(response.status)
+        
+    }
+
+      async function getPokemon() {
+        console.log(await getActualPokemon())
+    }
+
+  </script>
 </body>
 </html>
