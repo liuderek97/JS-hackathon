@@ -9,13 +9,13 @@
   <title>Pokemon Team Builder</title>
 </head>
 <body>
+  <!-- Title -->
   <h1>Pokemon Team builder</h1>
+  <!-- Button form -->
   <div class="form">
-    
-      <p>Enter the name of a Pokemon</p>
-      <input type="text" label="Enter a Pokemon" id="userInput">
-      <button type="button" onClick="getPokemon()"> Get Pokemon</button>
-    
+    <p>Enter the name of a Pokemon</p>
+    <input type="text" label="Enter a Pokemon" id="userInput">
+    <button type="button" onClick="getPokemon()"> Get Pokemon</button>
   </div>
 
   <ul></ul>
@@ -131,7 +131,7 @@
         pokemonMoves = [];
         console.log(pokemon);
         remove = document.createElement("button");
-        remove.innerHTML = "Delete Team";
+        remove.innerHTML = "Delete Pokemon";
         team.appendChild(remove);
         remove.addEventListener('click', function(){
           team.innerHTML ='';
